@@ -815,7 +815,11 @@ function render() {
   const items = [...personal].sort((a,b) => a.time.localeCompare(b.time));
 
   if (items.length === 0) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">Aucun rappel ce jour-là.<br>Appuyez sur le bouton vert pour en ajouter un.</div></div>`;
+    const prenom = currentUser ? currentUser.prenom : '';
+    const isToday2 = state.dayOffset === 0;
+    const msg = isToday2 ? `Bonjour ${prenom} 👋` : '🌿';
+    const subMsg = isToday2 ? 'Aucun rappel aujourd\'hui.<br>Appuyez sur le bouton vert pour en ajouter un.' : 'Aucun rappel ce jour-là.<br>Appuyez sur le bouton vert pour en ajouter un.';
+    list.innerHTML = `<div class="empty"><div class="empty-icon" style="font-size:36px;font-weight:800;color:#2c3e91">${msg}</div><div class="empty-text" style="margin-top:12px">${subMsg}</div></div>`;
     return;
   }
 

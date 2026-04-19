@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-title" content="Ma Journée AVP">
   <meta name="theme-color" content="#2c3e91">
   <title>Ma Journée AVP</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📅%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗓️%3C/text%3E%3C/svg%3E">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; overflow: hidden; }
@@ -349,7 +349,7 @@
       <div class="field"><label id="alarm-time-label">Heure</label><div id="f-time" class="tp"></div></div>
     </div>
     <div class="section-box section-event" id="event-section" style="display:none">
-      <div class="section-header"><span class="section-icon">📅</span><span class="section-title">Rendez-vous</span></div>
+      <div class="section-header"><span class="section-icon">🗓️</span><span class="section-title">Rendez-vous</span></div>
       <div class="field-hint" style="margin-bottom:14px;margin-top:-4px">Laissez pareil si le rendez-vous tombe à l'heure de la sonnerie.</div>
       <div class="field"><label>Date</label><input type="date" id="f-event-date" class="input"></div>
       <div class="field" style="margin-bottom:0"><label>Heure</label><div id="f-event-time" class="tp"></div></div>
@@ -844,7 +844,7 @@ function render() {
     let eventLine = '';
     if (hasDiffEvent) {
       const dp = dateDiffers ? ` ${formatRelativeDate(eventDate)}` : '';
-      eventLine = `<div class="card-eventtime">📅${dp} à ${eventTime.replace(':','h')}</div>`;
+      eventLine = `<div class="card-eventtime">🗓️${dp} à ${eventTime.replace(':','h')}</div>`;
     }
     let noteHTML = '';
     if (r.note) {
@@ -869,8 +869,8 @@ function render() {
       const endH = String(parseInt(h)+1).padStart(2,'0');
       const gcStart = `${gcDate}T${h}${m}00`;
       const gcEnd = `${gcDate}T${endH}${m}00`;
-      const gcUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(r.title)}&dates=${gcStart}/${gcEnd}&details=${encodeURIComponent(r.note||'')}`;
-      agendaBtn = `<a href="${gcUrl}" target="_blank" onclick="event.stopPropagation()" style="display:inline-block;margin-top:6px;background:#eef1fb;color:#2c3e91;border:2px solid #2c3e91;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;text-decoration:none;">📅 Ajouter à l'agenda</a>`;
+      const gcUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(r.title)}&dates=${gcStart}/${gcEnd}&details=${encodeURIComponent(r.note||'')}&reminders=email,0,popup,120`;
+      agendaBtn = `<a href="${gcUrl}" target="_blank" onclick="event.stopPropagation()" style="display:inline-block;margin-top:6px;background:#eef1fb;color:#2c3e91;border:2px solid #2c3e91;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;text-decoration:none;">🔔 Ajouter à l'agenda</a>`;
     }
 
     return `
@@ -1061,9 +1061,9 @@ function renderIcons(selected) {
 
 function getSelectedIcon() {
   const sel = document.querySelector('.icon-opt.selected');
-  if (!sel) return '📅';
+  if (!sel) return '🗓️';
   const def = ICONS.find(ic => ic.id === sel.dataset.iconId);
-  return def ? def.emoji : '📅';
+  return def ? def.emoji : '🗓️';
 }
 
 function setRecurrence(rec) {
@@ -1147,7 +1147,7 @@ function parseVoiceInput(text) {
   const tr=parseVoiceTime(w);if(tr){result.time=tr.time;w=w.replace(tr.regex,' ');}
   const dr=parseVoiceDate(w);if(dr){result.date=dr.date;result.recurrence='once';w=w.replace(dr.regex,' ');}
   if(/\b(tous les jours|chaque jour)\b/i.test(w)){result.recurrence='daily';result.date=null;}
-  result.icon=suggestVoiceIcon(text.toLowerCase())||'📅';
+  result.icon=suggestVoiceIcon(text.toLowerCase())||'🗓️';
   let title=w.replace(/\b(à|au|le|la|les|du|de|d['']|pour)\b/gi,' ').replace(/\s+/g,' ').trim();
   if(title.length<2)title=text.trim();
   if(title)title=title.charAt(0).toUpperCase()+title.slice(1);
@@ -1234,7 +1234,7 @@ function fireAlert(r) {
   const eD=r.eventDate||r.date,eT=r.eventTime||r.time;
   const dd=r.recurrence==='once'&&eD&&eD!==r.date,td=r.recurrence==='once'&&eT&&eT!==r.time,hd=dd||td;
   const ae=document.getElementById('alert-eventtime');
-  if(hd){ae.textContent=`📅 Rendez-vous${dd?' '+formatRelativeDate(eD):''} à ${eT.replace(':','h')}`;ae.style.display='block';}else{ae.style.display='none';}
+  if(hd){ae.textContent=`🗓️ Rendez-vous${dd?' '+formatRelativeDate(eD):''} à ${eT.replace(':','h')}`;ae.style.display='block';}else{ae.style.display='none';}
   document.getElementById('alert').classList.add('active');
   startChime();
   let phrase=`Il est ${timeToSpeech(r.time)}. ${r.title}`;

@@ -16,7 +16,23 @@
       await OneSignal.init({
         appId: "a89f967a-eddf-4a83-b654-4e34f0b95141",
         notifyButton: { enable: false },
+        promptOptions: {
+          slidedown: {
+            prompts: [{
+              type: "push",
+              autoPrompt: true,
+              text: {
+                actionMessage: "Ma Journée AVP souhaite vous envoyer des notifications pour vos rappels.",
+                acceptButton: "Autoriser",
+                cancelButton: "Non merci"
+              },
+              delay: { pageViews: 1, timeDelay: 2 }
+            }]
+          }
+        }
       });
+      // Forcer la demande
+      await OneSignal.Slidedown.promptPush();
     });
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗓️%3C/text%3E%3C/svg%3E">

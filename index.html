@@ -244,9 +244,9 @@
 <!-- LOGIN SCREEN -->
 <div id="login-screen" class="screen">
   <div class="login-wrap">
-    <div class="login-logo">📅</div>
-    <div class="login-title">Ma Journée AVP</div>
-    <div class="login-subtitle">Votre agenda personnel</div>
+    <div class="login-logo" style="font-size:48px; background:#2c3e91; color:white; width:90px; height:90px; border-radius:20px; display:flex; align-items:center; justify-content:center; margin:0 auto;">🏠</div>
+    <div class="login-title">Bienvenue dans l'application AVP</div>
+    <div class="login-subtitle" style="font-weight:700; color:#22a559; font-size:17px;">Animateur Steve</div>
     <div class="login-card" id="login-card">
       <h2 id="login-card-title">Se connecter</h2>
       <div class="login-field" id="field-prenom">
@@ -809,11 +809,10 @@ function render() {
     };
   });
 
-  // Don't show avp events that are already in personal reminders as ateliers
+  // Les ateliers AVP n'apparaissent PAS automatiquement - seulement si inscrit
   const atelierIds = new Set(state.reminders.filter(r=>r.source==='atelier').map(r=>r.date+'_'+r.time+'_'+r.title.slice(0,20).replace(/\s/g,'_')));
-  const avpFiltered = avp.filter(e => !atelierIds.has(e.eventKey));
-
-  const items = [...personal, ...avpFiltered].sort((a,b) => a.time.localeCompare(b.time));
+  // On n'affiche plus les avp non inscrits dans la journée
+  const items = [...personal].sort((a,b) => a.time.localeCompare(b.time));
 
   if (items.length === 0) {
     list.innerHTML = `<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">Aucun rappel ce jour-là.<br>Appuyez sur le bouton vert pour en ajouter un.</div></div>`;
